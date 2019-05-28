@@ -114,6 +114,22 @@
     </fieldType>
 
     <!--
+     Chinese text field.
+     Modified version of text_cjk: https://github.com/apache/lucene-solr/blob/releases/lucene-solr/8.1.0/solr/server/solr/configsets/_default/conf/managed-schema#L595
+     There are other ways to deal with the complexity of Chinese: https://lucene.apache.org/solr/guide/7_7/language-analysis.html#traditional-chinese
+    -->
+    <fieldType name="text_zh" class="solr.TextField" positionIncrementGap="100">
+      <analyzer>
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <!-- normalize width before bigram, as e.g. half-width dakuten combine  -->
+        <filter class="solr.CJKWidthFilterFactory"/>
+        <!-- for any non-CJK -->
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.CJKBigramFilterFactory"/>
+      </analyzer>
+    </fieldType>
+
+    <!--
       Individual field definitions. May overwrite parameters set in the fieldType definitions.
     -->
 
@@ -136,6 +152,7 @@
     <dynamicField name="*_FR_txt" type="text_fr" multiValued="true" /> 
     <dynamicField name="*_ES_txt" type="text_es" multiValued="true" /> 
     <dynamicField name="*_AR_txt" type="text_ar" multiValued="true" /> 
+    <dynamicField name="*_ZH_txt" type="text_zh" multiValued="true" /> 
 
     <!--
       Copy all fields (explicit and dynamic) to the _text_ field to allow searching of everything.
