@@ -33,8 +33,34 @@
     <fieldType name="text_basic" class="solr.TextField" positionIncrementGap="100">
       <analyzer>
         <tokenizer class="solr.StandardTokenizerFactory"/>
-	<filter class="solr.ASCIIFoldingFilterFactory" preserveOriginal="false"/>
+	      <filter class="solr.ASCIIFoldingFilterFactory" preserveOriginal="false"/>
         <filter class="solr.LowerCaseFilterFactory"/>
+      </analyzer>
+    </fieldType>
+
+    <!-- 
+      English text field. 
+      Modified version of https://github.com/apache/lucene-solr/blob/releases/lucene-solr/8.1.0/solr/server/solr/configsets/_default/conf/managed-schema#L331
+      Supports query-time synonyms as well as protected (from stemming) words.
+      Include ASCII folding, just in case
+    -->
+    <fieldType name="text_en" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.EnglishPossessiveFilterFactory"/>
+        <filter class="solr.KeywordMarkerFilterFactory" protected="lang/protwords_common.txt"/>
+        <filter class="solr.EnglishMinimalStemFilterFactory"/>
+	      <filter class="solr.ASCIIFoldingFilterFactory" preserveOriginal="false"/>
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.SynonymGraphFilterFactory" synonyms="lang/synonyms_en.txt" ignoreCase="true" expand="true"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.EnglishPossessiveFilterFactory"/>
+        <filter class="solr.KeywordMarkerFilterFactory" protected="lang/protwords_common.txt"/>
+        <filter class="solr.EnglishMinimalStemFilterFactory"/>
+	      <filter class="solr.ASCIIFoldingFilterFactory" preserveOriginal="false"/>
       </analyzer>
     </fieldType>
 
@@ -57,6 +83,8 @@
        Searchable when mentioned explicitly.
     -->
     <dynamicField name="*" type="text_basic" multiValued="true" />
+
+    <dynamicField name="*_EN_txt" type="text_en" multiValued="true" /> 
 
     <!--
       Copy all fields (explicit and dynamic) to the _text_ field to allow searching of everything.
