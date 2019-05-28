@@ -177,7 +177,12 @@
     <dynamicField name="*_RU_txt" type="text_ru" multiValued="true" /> 
 
     <dynamicField name="*_dt" type="pdate" />
-    
+
+    <!--
+      Single-valued basic string.
+    -->
+    <dynamicField name="*_s" type="string" />
+
     <!--
       Copy all fields (explicit and dynamic) to the _text_ field to allow searching of everything.
       Good for development, but it means all individual analysis chain definitions are ignored i
