@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+   Absolutely minimal version of https://github.com/apache/lucene-solr/blob/releases/lucene-solr/8.1.0/solr/server/solr/configsets/_default/conf/solrconfig.xml
+   Read the original for parameters for warm-up queries, caching, cloud scaling, autocommit, request update handlers, and the rest of tuning-required options
+   See also: https://lucene.apache.org/solr/guide/7_7/configuring-solrconfig-xml.html
+--> 
+
+<config>
+  <luceneMatchVersion>8.1.0</luceneMatchVersion>
+
+  <!--
+    Only allow modifying managed-schema by hand to allow it be version-controlled.
+    This disables Schema API editing capabilities.
+    Comment out, if using a copy of this for development/experimentation.
+  -->
+  <schemaFactory class="ManagedIndexSchemaFactory">
+    <bool name="mutable">false</bool>
+  </schemaFactory>
+
+  <!--
+    There could be multiple handlers with different parameters (sharing of params is also possible).
+    The parameters could be default, additional, and also immutable/forced
+    More information at: https://lucene.apache.org/solr/guide/7_7/requesthandlers-and-searchcomponents-in-solrconfig.html#searchhandlers
+  -->
+  <requestHandler name="/select" class="solr.SearchHandler">
+    <lst name="defaults">
+      <str name="df">_text_</str>
+    </lst>
+  </requestHandler>
+
+</config>
