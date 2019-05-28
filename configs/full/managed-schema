@@ -64,6 +64,23 @@
       </analyzer>
     </fieldType>
 
+    <!--
+      French text field.
+      Modified version of https://github.com/apache/lucene-solr/blob/releases/lucene-solr/8.1.0/solr/server/solr/configsets/_default/conf/managed-schema#L705
+      No synonym support. Could be added, but would need to split into index/query definitions.
+      Include ASCII folding.
+    -->
+    <fieldType name="text_fr" class="solr.TextField" positionIncrementGap="100">
+      <analyzer> 
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <!-- removes l', etc -->
+        <filter class="solr.ElisionFilterFactory" ignoreCase="true" articles="lang/contractions_fr.txt"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.FrenchMinimalStemFilterFactory"/>
+	      <filter class="solr.ASCIIFoldingFilterFactory" preserveOriginal="false"/>
+      </analyzer>
+    </fieldType>
+
 
     <!--
       Individual field definitions. May overwrite parameters set in the fieldType definitions.
@@ -85,6 +102,7 @@
     <dynamicField name="*" type="text_basic" multiValued="true" />
 
     <dynamicField name="*_EN_txt" type="text_en" multiValued="true" /> 
+    <dynamicField name="*_FR_txt" type="text_fr" multiValued="true" /> 
 
     <!--
       Copy all fields (explicit and dynamic) to the _text_ field to allow searching of everything.
