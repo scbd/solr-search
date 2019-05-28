@@ -81,6 +81,19 @@
       </analyzer>
     </fieldType>
 
+    <!--
+     Spanish text field.
+     Modified version of https://github.com/apache/lucene-solr/blob/releases/lucene-solr/8.1.0/solr/server/solr/configsets/_default/conf/managed-schema#L658
+     No synonym. Yes ASCII folding.
+    -->
+    <fieldType name="text_es" class="solr.TextField" positionIncrementGap="100">
+      <analyzer> 
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.SpanishLightStemFilterFactory"/>
+	      <filter class="solr.ASCIIFoldingFilterFactory" preserveOriginal="false"/>
+      </analyzer>
+    </fieldType>
 
     <!--
       Individual field definitions. May overwrite parameters set in the fieldType definitions.
@@ -103,6 +116,7 @@
 
     <dynamicField name="*_EN_txt" type="text_en" multiValued="true" /> 
     <dynamicField name="*_FR_txt" type="text_fr" multiValued="true" /> 
+    <dynamicField name="*_ES_txt" type="text_es" multiValued="true" /> 
 
     <!--
       Copy all fields (explicit and dynamic) to the _text_ field to allow searching of everything.
