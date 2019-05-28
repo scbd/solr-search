@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+   Absolutely minimal version of https://github.com/apache/lucene-solr/blob/releases/lucene-solr/8.1.0/solr/server/solr/configsets/_default/conf/managed-schema
+   Read the original for all various field definitions
+   See also: https://lucene.apache.org/solr/guide/7_0/documents-fields-and-schema-design.html
+--> 
+
+<schema name="minimal-config" version="1.6">
+
+    <!--
+      Field types define what indexing and searching behavior, both through implementation class
+      and through default parameters (most of which can be overriden by the field definitions).
+      For available implementation classes, see: https://lucene.apache.org/solr/guide/7_7/field-types-included-with-solr.html
+      For explanations of parameters, see: https://lucene.apache.org/solr/guide/7_7/field-type-definitions-and-properties.html
+      By default, all fields are indexed and stored. This can be overriden at type or field level.
+    -->
+
+    <!-- 
+      The StrField type is not analyzed, but indexed/stored verbatim.
+      It has docValues enabled to make sorting and faceting faster: https://lucene.apache.org/solr/guide/7_7/docvalues.html
+     -->
+    <fieldType name="string" class="solr.StrField" docValues="true" sortMissingLast="true" />
+
+    <!--
+      See, by comparison: https://github.com/apache/lucene-solr/blob/releases/lucene-solr/8.1.0/solr/server/solr/configsets/_default/conf/managed-schema#L282
+      No StopFilter as it is disabled by default anyway and is generally not useful in modern search.
+      No Synonyms as they are not configured by default. Can be added it, when required.
+      Map non-ASCII characters to something searchable. Primary use is to allow search with/without accents. See: https://lucene.apache.org/solr/guide/7_7/filter-descriptions.html#ascii-folding-filter
+      Same analyser chain for both indexing and query. For more details, see: https://lucene.apache.org/solr/guide/7_7/understanding-analyzers-tokenizers-and-filters.html#understanding-analyzers-tokenizers-and-filters
+      This is barely suitable for most Latin languages and will have real issue with non-whitespace languages, such as Chinese.
+    -->
+    <fieldType name="text_basic" class="solr.TextField" positionIncrementGap="100">
+      <analyzer>
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+	<filter class="solr.ASCIIFoldingFilterFactory" preserveOriginal="false"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+      </analyzer>
+    </fieldType>
+
+
+    <!--
+      Individual field definitions. May overwrite parameters set in the fieldType definitions.
+    -->
+
+    <!-- Primary key field. Every document must have one and updates use this field to replace a document. -->
+    <field name="id" type="string" required="true" />
+    <uniqueKey>id</uniqueKey>
+
+    <!-- Catch-all field for generic search. Indexed, but not stored, so never returned to the user. --> 
+    <field name="_text_" type="text_basic" stored="false" multiValued="true" />
+
+    <!-- 
+       Any field that does not match more precise definitions will match this.
+       Multivalued to allow both single- and multi-valued fields to index.
+       Useful for rapid development, but should probably be disabled for production.
+       Searchable when mentioned explicitly.
+    -->
+    <dynamicField name="*" type="text_basic" multiValued="true" />
+
+    <!--
+      Copy all fields (explicit and dynamic) to the _text_ field to allow searching of everything.
+      Good for development, but it means all individual analysis chain definitions are ignored i
+      (inly _text_'s definition is used). 
+      Also, does not allow any sort of relevancy manipulation
+    -->
+    <copyField source="*" dest="_text_" />
+
+</schema>

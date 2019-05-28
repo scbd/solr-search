@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+   This file is require to mark a root under which all collections live.
+   Solr needs to be started with bin/solr start -s <path-to-solr.xml-dir>
+
+   For all the configuration options, see: https://lucene.apache.org/solr/guide/7_7/format-of-solr-xml.html
+-->
+<solr>
+</solr>
