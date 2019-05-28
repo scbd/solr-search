@@ -130,6 +130,20 @@
     </fieldType>
 
     <!--
+     Russian text field.
+     Modified version of https://github.com/apache/lucene-solr/blob/releases/lucene-solr/8.1.0/solr/server/solr/configsets/_default/conf/managed-schema#L959
+     No synonym. 
+     No stopwords (may need them later). 
+    -->
+    <fieldType name="text_ru" class="solr.TextField" positionIncrementGap="100">
+      <analyzer> 
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.RussianLightStemFilterFactory"/>
+      </analyzer>
+    </fieldType>
+
+    <!--
       Individual field definitions. May overwrite parameters set in the fieldType definitions.
     -->
 
@@ -153,6 +167,7 @@
     <dynamicField name="*_ES_txt" type="text_es" multiValued="true" /> 
     <dynamicField name="*_AR_txt" type="text_ar" multiValued="true" /> 
     <dynamicField name="*_ZH_txt" type="text_zh" multiValued="true" /> 
+    <dynamicField name="*_RU_txt" type="text_ru" multiValued="true" /> 
 
     <!--
       Copy all fields (explicit and dynamic) to the _text_ field to allow searching of everything.
