@@ -1,2 +1,0 @@
-# Use a protected word file to protect against the stemmer reducing two
-# unrelated words to the same base word.

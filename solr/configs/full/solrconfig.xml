@@ -7,7 +7,12 @@
 --> 
 
 <config>
-  <luceneMatchVersion>8.1.0</luceneMatchVersion>
+  <luceneMatchVersion>8.5.2</luceneMatchVersion>
+
+  <!-- Chinese -->
+  <lib dir="${solr.install.dir:../../../..}/contrib/analysis-extras/lucene-libs" regex="lucene-analyzers-smartcn-\d.*\.jar" />    
+  <!-- Traditional Chinese library - END -->
+
 
   <!--
     Only allow modifying managed-schema by hand to allow it be version-controlled.

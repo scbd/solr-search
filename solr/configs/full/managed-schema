@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <!--
-   Absolutely minimal version of https://github.com/apache/lucene-solr/blob/releases/lucene-solr/8.1.0/solr/server/solr/configsets/_default/conf/managed-schema
+   Absolutely minimal version of https://github.com/apache/lucene-solr/blob/releases/lucene-solr/8.5.2/solr/server/solr/configsets/_default/conf/managed-schema
    Read the original for all various field definitions
    See also: https://lucene.apache.org/solr/guide/7_0/documents-fields-and-schema-design.html
 --> 
@@ -11,14 +11,14 @@
     <!--
       Field types define what indexing and searching behavior, both through implementation class
       and through default parameters (most of which can be overriden by the field definitions).
-      For available implementation classes, see: https://lucene.apache.org/solr/guide/7_7/field-types-included-with-solr.html
-      For explanations of parameters, see: https://lucene.apache.org/solr/guide/7_7/field-type-definitions-and-properties.html
+      For available implementation classes, see: https://lucene.apache.org/solr/guide/8_5/field-types-included-with-solr.html
+      For explanations of parameters, see: https://lucene.apache.org/solr/guide/8_5/field-type-definitions-and-properties.html
       By default, all fields are indexed and stored. This can be overriden at type or field level.
     -->
 
     <!-- 
       The StrField type is not analyzed, but indexed/stored verbatim.
-      It has docValues enabled to make sorting and faceting faster: https://lucene.apache.org/solr/guide/7_7/docvalues.html
+      It has docValues enabled to make sorting and faceting faster: https://lucene.apache.org/solr/guide/8_5/docvalues.html
      -->
     <fieldType name="string" class="solr.StrField" docValues="true" sortMissingLast="true" />
 
@@ -30,11 +30,11 @@
     <fieldType name="pdate" class="solr.DatePointField" docValues="true"/>
 
     <!--
-      See, by comparison: https://github.com/apache/lucene-solr/blob/releases/lucene-solr/8.1.0/solr/server/solr/configsets/_default/conf/managed-schema#L282
+      See, by comparison: https://github.com/apache/lucene-solr/blob/releases/lucene-solr/8.5.2/solr/server/solr/configsets/_default/conf/managed-schema#L282
       No StopFilter as it is disabled by default anyway and is generally not useful in modern search.
       No Synonyms as they are not configured by default. Can be added it, when required.
-      Map non-ASCII characters to something searchable. Primary use is to allow search with/without accents. See: https://lucene.apache.org/solr/guide/7_7/filter-descriptions.html#ascii-folding-filter
-      Same analyser chain for both indexing and query. For more details, see: https://lucene.apache.org/solr/guide/7_7/understanding-analyzers-tokenizers-and-filters.html#understanding-analyzers-tokenizers-and-filters
+      Map non-ASCII characters to something searchable. Primary use is to allow search with/without accents. See: https://lucene.apache.org/solr/guide/8_5/filter-descriptions.html#ascii-folding-filter
+      Same analyser chain for both indexing and query. For more details, see: https://lucene.apache.org/solr/guide/8_5/understanding-analyzers-tokenizers-and-filters.html#understanding-analyzers-tokenizers-and-filters
       This is barely suitable for most Latin languages and will have real issue with non-whitespace languages, such as Chinese.
     -->
     <fieldType name="text_basic" class="solr.TextField" positionIncrementGap="100">
@@ -47,7 +47,7 @@
 
     <!-- 
       English text field. 
-      Modified version of https://github.com/apache/lucene-solr/blob/releases/lucene-solr/8.1.0/solr/server/solr/configsets/_default/conf/managed-schema#L331
+      Modified version of https://github.com/apache/lucene-solr/blob/releases/lucene-solr/8.5.2/solr/server/solr/configsets/_default/conf/managed-schema#L331
       Supports query-time synonyms as well as protected (from stemming) words.
       Include ASCII folding, just in case
     -->
@@ -73,7 +73,7 @@
 
     <!--
       French text field.
-      Modified version of https://github.com/apache/lucene-solr/blob/releases/lucene-solr/8.1.0/solr/server/solr/configsets/_default/conf/managed-schema#L705
+      Modified version of https://github.com/apache/lucene-solr/blob/releases/lucene-solr/8.5.2/solr/server/solr/configsets/_default/conf/managed-schema#L705
       No synonym support. Could be added, but would need to split into index/query definitions.
       Include ASCII folding.
     -->
@@ -90,7 +90,7 @@
 
     <!--
      Spanish text field.
-     Modified version of https://github.com/apache/lucene-solr/blob/releases/lucene-solr/8.1.0/solr/server/solr/configsets/_default/conf/managed-schema#L658
+     Modified version of https://github.com/apache/lucene-solr/blob/releases/lucene-solr/8.5.2/solr/server/solr/configsets/_default/conf/managed-schema#L658
      No synonym. Yes ASCII folding.
     -->
     <fieldType name="text_es" class="solr.TextField" positionIncrementGap="100">
@@ -104,7 +104,7 @@
 
     <!--
      Arabic text field.
-     Modified version of https://github.com/apache/lucene-solr/blob/releases/lucene-solr/8.1.0/solr/server/solr/configsets/_default/conf/managed-schema#L559
+     Modified version of https://github.com/apache/lucene-solr/blob/releases/lucene-solr/8.5.2/solr/server/solr/configsets/_default/conf/managed-schema#L559
      No synonym. 
      No stopwords (may need them later). 
      No ASCII folding (would probably break things).
@@ -122,23 +122,31 @@
 
     <!--
      Chinese text field.
-     Modified version of text_cjk: https://github.com/apache/lucene-solr/blob/releases/lucene-solr/8.1.0/solr/server/solr/configsets/_default/conf/managed-schema#L595
-     There are other ways to deal with the complexity of Chinese: https://lucene.apache.org/solr/guide/7_7/language-analysis.html#traditional-chinese
+     Modified version of text_cjk: https://github.com/apache/lucene-solr/blob/releases/lucene-solr/8.5.2/solr/server/solr/configsets/_default/conf/managed-schema#L595
+     There are other ways to deal with the complexity of Chinese: https://lucene.apache.org/solr/guide/8_5/language-analysis.html#traditional-chinese
     -->
-    <fieldType name="text_zh" class="solr.TextField" positionIncrementGap="100">
+    <!-- <fieldType name="text_zh" class="solr.TextField" positionIncrementGap="100">
       <analyzer>
         <tokenizer class="solr.StandardTokenizerFactory"/>
-        <!-- normalize width before bigram, as e.g. half-width dakuten combine  -->
+        <!- normalize width before bigram, as e.g. half-width dakuten combine  ->
         <filter class="solr.CJKWidthFilterFactory"/>
-        <!-- for any non-CJK -->
+        <!- for any non-CJK ->
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.CJKBigramFilterFactory"/>
       </analyzer>
-    </fieldType>
+    </fieldType> -->
+
+    <fieldType name="text_zh" class="solr.TextField" positionIncrementGap="100">
+      <analyzer>
+          <tokenizer class="org.apache.lucene.analysis.cn.smart.HMMChineseTokenizerFactory" />
+          <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_zh.txt" />
+          <filter class="solr.PorterStemFilterFactory"/>
+      </analyzer>
+    </fieldType>   
 
     <!--
      Russian text field.
-     Modified version of https://github.com/apache/lucene-solr/blob/releases/lucene-solr/8.1.0/solr/server/solr/configsets/_default/conf/managed-schema#L959
+     Modified version of https://github.com/apache/lucene-solr/blob/releases/lucene-solr/8.5.2/solr/server/solr/configsets/_default/conf/managed-schema#L959
      No synonym. 
      No stopwords (may need them later). 
     -->

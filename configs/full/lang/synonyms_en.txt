@@ -1,4 +1,0 @@
-# Synonyms can be mapped in one direction
-# original => target
-# Synonyms can also be done as equivalence groups
-# original, synonym1, synonym2
