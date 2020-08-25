@@ -1,0 +1,13 @@
+<dynamicField name="*_AR_txt"   type="text_ar" indexed="true" stored="true" multiValued="true"/>
+<dynamicField name="*_EN_txt"   type="text_en" indexed="true" stored="true" multiValued="true"/>
+<dynamicField name="*_ES_txt"   type="text_es" indexed="true" stored="true" multiValued="true"/>
+<dynamicField name="*_FR_txt"   type="text_fr" indexed="true" stored="true" multiValued="true"/>
+<dynamicField name="*_RU_txt"   type="text_ru" indexed="true" stored="true" multiValued="true"/>
+<dynamicField name="*_ZH_txt"   type="text_zh" indexed="true" stored="true" multiValued="true"/>
+
+<dynamicField name="*_AR_t"     type="text_ar" indexed="true" stored="true" multiValued="false"/>
+<dynamicField name="*_EN_t"     type="text_en" indexed="true" stored="true" multiValued="false"/>
+<dynamicField name="*_ES_t"     type="text_es" indexed="true" stored="true" multiValued="false"/>
+<dynamicField name="*_FR_t"     type="text_fr" indexed="true" stored="true" multiValued="false"/>
+<dynamicField name="*_RU_t"     type="text_ru" indexed="true" stored="true" multiValued="false"/>
+<dynamicField name="*_ZH_t"     type="text_zh" indexed="true" stored="true" multiValued="false"/>

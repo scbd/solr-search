@@ -1,0 +1,9 @@
+
+    <!-- Chinese -->
+    <fieldType name="text_zh" class="solr.TextField" positionIncrementGap="100">
+      <analyzer>
+          <tokenizer class="org.apache.lucene.analysis.cn.smart.HMMChineseTokenizerFactory" />
+          <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_zh.txt" />
+          <filter class="solr.PorterStemFilterFactory"/>
+      </analyzer>
+    </fieldType>    
